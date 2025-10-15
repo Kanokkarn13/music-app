@@ -1,7 +1,7 @@
 // src/components/MusicCard.tsx
 import { useDispatch, useSelector } from "react-redux";
 import type { RootState, AppDispatch } from "../store/store";
-import { toggleFavorite } from "../store/favoritesSlice";
+import { toggleTrackFavorite } from "../store/favoritesSlice";
 import type { Track } from "../types/music";
 
 type Props = {
@@ -16,13 +16,13 @@ export default function MusicCard({
   showLink = true,
 }: Props) {
   const dispatch = useDispatch<AppDispatch>();
-  const favoriteIds = useSelector((s: RootState) => s.favorites.ids);
-  const isFavorited = favoriteIds.includes(String(track.id));
+  const favTrackIds = useSelector((s: RootState) => s.favorites.trackIds);
+  const isFavorited = favTrackIds.includes(String(track.id));
 
   const handleFavoriteClick = (e: React.MouseEvent) => {
-    e.stopPropagation(); // ✅ Prevent click from triggering navigation
-    e.preventDefault();  // ✅ Prevent link default behavior (if inside <Link>)
-    dispatch(toggleFavorite(track.id));
+    e.stopPropagation();
+    e.preventDefault();
+    dispatch(toggleTrackFavorite(track.id));
   };
 
   return (
@@ -33,6 +33,7 @@ export default function MusicCard({
             src={track.artworkUrl}
             alt={track.title}
             className="w-full h-full object-cover"
+            loading="lazy"
           />
         ) : (
           <div className="w-full h-full skeleton" />
@@ -65,9 +66,8 @@ export default function MusicCard({
         <button
           type="button"
           onClick={handleFavoriteClick}
-          className={`btn btn-outline btn-sm mt-3 ${
-            isFavorited ? "btn-secondary" : ""
-          }`}
+          aria-pressed={isFavorited}
+          className={`btn btn-outline btn-sm mt-3 ${isFavorited ? "btn-secondary" : ""}`}
         >
           {isFavorited ? "★ Favorited" : "☆ Favorite"}
         </button>

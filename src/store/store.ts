@@ -1,12 +1,16 @@
 // src/store/store.ts
 import { configureStore } from "@reduxjs/toolkit";
 import musicReducer from "./musicSlice";
+import albumsReducer from "./albumsSlice";
 import favoritesReducer from "./favoritesSlice";
+import albumTracksReducer from "./albumTracksSlice"; 
 
 export const store = configureStore({
   reducer: {
     music: musicReducer,
-    favorites: favoritesReducer, // ✅ add this line
+    albums: albumsReducer,
+    favorites: favoritesReducer,
+    albumTracks: albumTracksReducer, 
   },
 });
 

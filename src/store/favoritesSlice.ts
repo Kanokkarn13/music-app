@@ -1,47 +1,52 @@
-// src/store/favoritesSlice.ts
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 
-const FAV_KEY = "fav_song_ids"; // renamed for clarity
+const FAV_TRACK_KEY = "fav_track_ids";
+const FAV_ALBUM_KEY = "fav_album_ids";
 
-// --- helpers for localStorage ---
-const loadFavoritesFromStorage = (): string[] => {
+// --- helpers 
+const load = (key: string): string[] => {
   try {
-    const raw = localStorage.getItem(FAV_KEY);
+    const raw = localStorage.getItem(key);
     return raw ? JSON.parse(raw) : [];
   } catch {
     return [];
   }
 };
-
-const saveFavoritesToStorage = (ids: string[]) => {
-  localStorage.setItem(FAV_KEY, JSON.stringify(ids));
+const save = (key: string, ids: string[]) => {
+  localStorage.setItem(key, JSON.stringify(ids));
 };
 
 interface FavoritesState {
-  ids: string[];
+  trackIds: string[]; 
+  albumIds: string[];
 }
 
 const initialState: FavoritesState = {
-  ids: loadFavoritesFromStorage(),
+  trackIds: load(FAV_TRACK_KEY),
+  albumIds: load(FAV_ALBUM_KEY),
 };
 
-// --- Slice ---
 const favoritesSlice = createSlice({
   name: "favorites",
   initialState,
   reducers: {
-    toggleFavorite: (state, action: PayloadAction<string | number>) => {
+    toggleTrackFavorite: (state, action: PayloadAction<string | number>) => {
       const id = String(action.payload);
-      if (state.ids.includes(id)) {
-        state.ids = state.ids.filter((favId) => favId !== id);
-      } else {
-        state.ids.push(id);
-      }
-      saveFavoritesToStorage(state.ids);
+      state.trackIds = state.trackIds.includes(id)
+        ? state.trackIds.filter((x) => x !== id)
+        : [...state.trackIds, id];
+      save(FAV_TRACK_KEY, state.trackIds);
+    },
+    toggleAlbumFavorite: (state, action: PayloadAction<string | number>) => {
+      const id = String(action.payload);
+      state.albumIds = state.albumIds.includes(id)
+        ? state.albumIds.filter((x) => x !== id)
+        : [...state.albumIds, id];
+      save(FAV_ALBUM_KEY, state.albumIds);
     },
   },
 });
 
-export const { toggleFavorite } = favoritesSlice.actions;
+export const { toggleTrackFavorite, toggleAlbumFavorite } = favoritesSlice.actions;
 export default favoritesSlice.reducer;

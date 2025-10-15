@@ -13,10 +13,12 @@ export default function Navbar() {
 
       <div className="flex-none gap-2">
         <NavLink to="/" className={linkClass}>Home</NavLink>
+        <NavLink to="/songs" className={linkClass}> Top Songs</NavLink>
+        <NavLink to="/albums" className={linkClass}>Top Albums</NavLink>
         <NavLink to="/favorites" className={linkClass}>Favorites</NavLink>
         <NavLink to="/about" className={linkClass}>About</NavLink>
         
-        {/* toggle theme (daisyUI) */}
+        
         <label className="swap swap-rotate ml-2">
           <input type="checkbox" className="theme-controller" value="dark" />
           <svg className="swap-on h-5 w-5 fill-current" viewBox="0 0 24 24"><path d="M5.64 17..."/></svg>

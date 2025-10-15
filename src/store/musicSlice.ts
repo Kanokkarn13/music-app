@@ -3,34 +3,29 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import type { Track, ItunesTopSongsFeed, RssEntry, RssImage } from "../types/music";
 
-// ====== ค่าคงที่ ======
+
 const DEFAULT_LIMIT = 24;
 const DEFAULT_COUNTRY = "th";
 
-// ===== Helpers =====
-
-// เลือกรูป “ตัวใหญ่สุด” จาก feed (มัก 170x170)
+// Helper
 const largestImg = (imgs?: RssImage[]) =>
   imgs && imgs.length ? imgs[imgs.length - 1].label : undefined;
 
-// อัปสเกลขนาดรูปจาก .../170x170bb.png -> .../1000x1000bb.jpg
+
 const upscaleArtwork = (url?: string, size = 1000) => {
   if (!url) return url;
   return url.replace(/\/\d+x\d+bb\.(png|jpg)/, `/${size}x${size}bb.jpg`);
 };
 
-// link ใน RSS อาจเป็น object เดี่ยวหรือ array; ทำให้เป็น array เสมอ
+
 const asLinkArray = (link: RssEntry["link"]) => (Array.isArray(link) ? link : [link]);
 
-// URL หน้าเพลง (non-enclosure)
 const pageUrl = (entry: RssEntry) =>
   asLinkArray(entry.link).find((l) => l.attributes.rel !== "enclosure")?.attributes.href;
 
-// URL พรีวิวเสียง (enclosure)
 const previewUrl = (entry: RssEntry) =>
   asLinkArray(entry.link).find((l) => l.attributes.rel === "enclosure")?.attributes.href;
 
-// ====== State ======
 type MusicState = {
   items: Track[];
   status: "idle" | "loading" | "succeeded" | "failed";
@@ -42,7 +37,7 @@ const initialState: MusicState = {
   status: "idle",
 };
 
-// ====== Thunk: ไม่รับพารามิเตอร์ ======
+
 export const fetchTopSongs = createAsyncThunk<Track[], void>(
   "music/fetchTopSongs",
   async () => {
@@ -60,26 +55,26 @@ export const fetchTopSongs = createAsyncThunk<Track[], void>(
         : undefined;
 
       return {
-        // หลัก
+        // main
         id: e.id.attributes["im:id"],
         title: e["im:name"].label,
         artist: e["im:artist"].label,
         album: e["im:collection"]?.["im:name"]?.label,
 
-        // รูป / ลิงก์ / พรีวิว
+        // pic link review
         artworkUrl: hi,
         pageUrl: pageUrl(e),
         previewUrl: previewUrl(e),
 
-        // รายละเอียดเพิ่มเติมจาก type ของคุณ
+        // detail
         artistUrl: e["im:artist"].attributes?.href,
         priceLabel: e["im:price"]?.label,
         priceAmount,
         currency: e["im:price"]?.attributes.currency,
         categoryId: e.category?.attributes["im:id"],
         category: e.category?.attributes.label,
-        releaseDate: e["im:releaseDate"]?.label,                 // ISO
-        releaseDateLabel: e["im:releaseDate"]?.attributes.label, // มนุษย์อ่าน
+        releaseDate: e["im:releaseDate"]?.label,                 
+        releaseDateLabel: e["im:releaseDate"]?.attributes.label, 
       };
     });
   }
