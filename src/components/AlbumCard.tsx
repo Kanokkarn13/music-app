@@ -17,7 +17,7 @@ export default function AlbumCard({ album }: { album: Album }) {
   };
 
   return (
-    <div className="card bg-base-100 shadow hover:shadow-lg transition">
+    <div className="card bg-base-100 shadow hover:shadow-lg transition h-full">
       <figure className="aspect-square overflow-hidden">
         {album.artworkUrl ? (
           <img
@@ -31,39 +31,34 @@ export default function AlbumCard({ album }: { album: Album }) {
         )}
       </figure>
 
-      <div className="card-body p-4">
-        <h3 className="card-title text-base leading-snug">{album.title}</h3>
-        <p className="text-sm opacity-80">{album.artist}</p>
+      <div className="card-body p-4 flex flex-col">
+        {/* Title 2 lines fixed height */}
+        <h3 className="card-title text-base leading-snug line-clamp-2 min-h-[2.75rem]">
+          {album.title}
+        </h3>
 
-        <div className="mt-2 flex flex-wrap gap-2 items-center text-xs opacity-70">
-          {album.releaseDateLabel && <span>{album.releaseDateLabel}</span>}
-        </div>
+        {/* Artist 1 line */}
+        <p className="text-sm opacity-80 line-clamp-1">{album.artist}</p>
 
-        
-        <div className="card-actions flex justify-between items-center mt-3">
+        {/* (optional) Release date 1 line */}
+        {album.releaseDateLabel && (
+          <p className="text-xs opacity-60 line-clamp-1">{album.releaseDateLabel}</p>
+        )}
+
+        {/* Actions: ONLY favorite (no Open) pinned bottom to match Song */}
+        <div className="mt-auto flex items-center justify-between gap-2 pt-2">
           <button
             type="button"
             onClick={handleFavClick}
             aria-label="toggle album favorite"
-            className={`btn btn-sm ${isFav ? "btn-primary" : "btn-outline"}`}
+            aria-pressed={isFav}
+            className={`btn btn-outline btn-sm ${isFav ? "btn-secondary" : ""}`}
           >
             {isFav ? "★ Favorited" : "☆ Favorite"}
           </button>
 
-          {album.pageUrl ? (
-            <a
-              className="btn btn-sm btn-outline"
-              href={album.pageUrl}
-              target="_blank"
-              rel="noreferrer"
-            >
-              Open in iTunes
-            </a>
-          ) : (
-            <button className="btn btn-sm" disabled>
-              Details
-            </button>
-          )}
+          {/* เว้นที่ว่างด้านขวาเพื่อบาลานซ์ layout กับ Song */}
+          <span className="invisible btn btn-sm btn-outline">Spacer</span>
         </div>
       </div>
     </div>
