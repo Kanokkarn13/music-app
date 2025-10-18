@@ -1,0 +1,104 @@
+/* Minimal styles for the MeetTheTeam component */
+.team-container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 2rem;
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Helvetica Neue", Arial;
+  color: #0f172a;
+}
+.team-header {
+  text-align: left;
+  padding: 2rem 0;
+}
+.header-label {
+  color: #6366f1;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+}
+.header-title {
+  font-size: 2rem;
+  line-height: 1.05;
+  margin: 0.25rem 0 0.5rem;
+  font-weight: 700;
+}
+.header-description {
+  color: #475569;
+  max-width: 60ch;
+}
+.team-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 1.25rem;
+  margin: 1.5rem 0 2rem;
+}
+.team-card {
+  background: #fff;
+  border-radius: 0.5rem;
+  padding: 1rem;
+  box-shadow: 0 6px 18px rgba(2,6,23,0.06);
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+.card-header {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+}
+.member-avatar {
+  width: 56px;
+  height: 56px;
+  aspect-ratio: 1 / 1;
+  box-sizing: border-box;
+  padding: 0;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #6366f1, #06b6d4);
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 1rem;
+  line-height: 1;
+  text-transform: uppercase;
+  flex: 0 0 auto;
+  overflow: hidden;
+  border: 2px solid rgba(0, 0, 0, 0.06);
+}
+.member-avatar > * {
+  display: inline-block;
+  white-space: nowrap;
+  text-align: center;
+}
+.member-name { font-weight: 600; }
+.member-role { color: #64748b; font-size: 0.9rem; }
+.member-bio { color: #334155; font-size: 0.95rem; }
+.member-expertise { display:flex; gap:0.5rem; flex-wrap:wrap; }
+.expertise-tag { background:#f1f5f9; color:#0f172a; padding:0.25rem 0.5rem; border-radius:0.375rem; font-size:0.8rem; }
+.member-links { margin-top:0.25rem; display:flex; gap:0.5rem; }
+.social-link { color:#0f172a; opacity:0.8; }
+.team-footer { padding:2rem 0 1rem; border-top:1px solid #eef2ff; }
+.footer-title { font-size:1.1rem; margin-bottom:0.25rem; }
+.footer-button { display:inline-block; margin-top:0.5rem; padding:0.5rem 0.75rem; background:#6366f1; color:white; border-radius:0.375rem; text-decoration:none }
+
+@media (min-width: 768px) {
+  .header-title { font-size: 2.5rem; }
+}
+
+/* Black & White theme scoped to About page */
+.about-bw {
+  background: #ffffff;
+  color: #0b0b0b;
+}
+.about-bw .team-card { background: #ffffff; box-shadow: 0 4px 10px rgba(0,0,0,0.06); }
+.about-bw .header-label { color: #111111; }
+.about-bw .header-title { color: #000000; }
+.about-bw .header-description, .about-bw .member-bio, .about-bw .member-role { color: #333333; }
+.about-bw .expertise-tag { background: #f8f8f8; color: #111111; }
+.about-bw .member-avatar { background: #111111; color: #ffffff; }
+
+.about-bw .footer-button { background: #111111; color: #ffffff; }
+
+
