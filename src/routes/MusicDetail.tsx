@@ -14,7 +14,7 @@ export default function MusicDetail() {
   const dispatch = useDispatch<AppDispatch>();
   const { items, status, error } = useSelector((s: RootState) => s.music);
 
-  // รับ track จาก Link (ถ้ามี)
+  // รับ track จาก Link 
   const fromLink = (location.state as { track?: Track } | null)?.track;
 
   // หาใน store ตาม id

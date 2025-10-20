@@ -21,7 +21,7 @@ export default function App() {
           <Route path="/albums/:id" element={<AlbumDetail />} />
           <Route path="/tracks/:id" element={<MusicDetail />} />
           <Route path="/favorites" element={<Favorites />} />
-          <Route path="/about" element={<About />} /> {/* ⬅️ เพิ่มตรงนี้ */}
+          <Route path="/about" element={<About />} /> 
           <Route path="*" element={<div className="alert alert-error">Not found</div>} />
         </Routes>
       </main>
