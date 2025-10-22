@@ -5,6 +5,7 @@ import { fetchTopSongs } from "../store/musicSlice";
 import { fetchTopAlbums } from "../store/albumsSlice";
 import MusicCard from "../components/MusicCard";
 import AlbumCard from "../components/AlbumCard";
+import { Link } from "react-router-dom";
 
 export default function Favorites() {
   const dispatch = useDispatch<AppDispatch>();
@@ -17,7 +18,7 @@ export default function Favorites() {
   // favorites
   const { trackIds, albumIds } = useSelector((s: RootState) => s.favorites);
 
-  // โหลดข้อมูลเท่าที่จำเป็น (เฉพาะตอนมี fav ids แต่ยังไม่มี items ใน store)
+  // load when fav id have
   useEffect(() => {
     if (songsStatus === "idle" && trackIds.length > 0 && songs.length === 0) {
       dispatch(fetchTopSongs());
@@ -51,9 +52,7 @@ export default function Favorites() {
 
       {isEmptyAll && (
         <div className="alert">
-          <span>
-            ยังไม่มีรายการโปรด — ลองกด ☆ ที่การ์ดเพลงหรืออัลบั้มเพื่อบันทึกนะ
-          </span>
+          <span>ยังไม่มีรายการโปรด — ลองกด ☆ ที่การ์ดเพลงหรืออัลบั้มเพื่อบันทึกนะ</span>
         </div>
       )}
 
@@ -69,12 +68,14 @@ export default function Favorites() {
           <h2 className="text-xl font-semibold">Songs</h2>
           <div className="grid gap-6 grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
             {favTracks.map((track) => (
-              <MusicCard
+              <Link
                 key={track.id}
-                track={track}
-                showPreview={false}
-                showLink={false}
-              />
+                to={`/tracks/${track.id}`}
+                state={{ track }}                 
+                className="block h-full"
+              >
+                <MusicCard track={track} showPreview={false} showLink={false} />
+              </Link>
             ))}
           </div>
         </section>
@@ -86,7 +87,14 @@ export default function Favorites() {
           <h2 className="text-xl font-semibold">Albums</h2>
           <div className="grid gap-6 grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
             {favAlbums.map((album) => (
-              <AlbumCard key={album.id} album={album} />
+              <Link
+                key={album.id}
+                to={`/albums/${album.id}`}
+                state={{ album }}                 
+                className="block h-full"
+              >
+                <AlbumCard album={album} />
+              </Link>
             ))}
           </div>
         </section>
